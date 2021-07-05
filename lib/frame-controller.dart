@@ -4,18 +4,20 @@ class FrameController {
   final String assetPath;
   final String assetBaseName;
   final String assetFileSuffix;
+  final int frames;
 
   FrameController(
       {required this.assetPath,
       required this.assetBaseName,
-      required this.assetFileSuffix});
+      required this.assetFileSuffix,
+      required this.frames});
 
   List<ui.Image> images = [];
 
   Future<List<ByteData>> _loadBytes() async {
     final List<ByteData> bytes = [];
 
-    for (int i = 0; i < 600; i++) {
+    for (int i = 0; i < frames; i++) {
       final _bytes = await rootBundle
           .load("$assetPath/$assetBaseName${i + 1}.$assetFileSuffix");
       bytes.add(_bytes);
@@ -57,5 +59,11 @@ class FrameController {
     final codecs = await _loadCodec(bytes);
     final frameInfos = await _loadFrameInfo(codecs);
     _loadImage(frameInfos);
+  }
+
+  void dispose() {
+    for (var image in images) {
+      image.dispose();
+    }
   }
 }

@@ -10,7 +10,9 @@ part 'frame-controller.dart';
 
 class ImageFrameAnimation extends StatefulWidget {
   final FrameController frameController;
-  ImageFrameAnimation({Key? key, required this.frameController})
+  final Duration duration;
+  ImageFrameAnimation(
+      {Key? key, required this.frameController, required this.duration})
       : assert(frameController.images.isNotEmpty,
             "请在加载此组件前初始化FrameController，并等待load的调用"),
         super(key: key);
@@ -22,7 +24,7 @@ class ImageFrameAnimation extends StatefulWidget {
 class _ImageFrameAnimationState extends State<ImageFrameAnimation>
     with SingleTickerProviderStateMixin {
   late final AnimationController _animationController =
-      AnimationController(vsync: this, duration: const Duration(seconds: 20));
+      AnimationController(vsync: this, duration: widget.duration);
 
   late final Animation<int> _animation;
 
